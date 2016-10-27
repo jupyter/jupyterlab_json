@@ -1,0 +1,14 @@
+{
+  "extends": ["tslint:latest", "tslint-react"],
+  "rules": {
+    "quotemark": false,
+    "trailing-comma": false,
+    "no-consecutive-blank-lines": false,
+    "member-access": false,
+    "member-ordering": false,
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "variable-name": "allow-leading-underscore",
+    "interface-name": false
+  }
+}

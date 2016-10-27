@@ -1,0 +1,8 @@
+*.bundle.*
+lib/
+node_modules/
+npm-debug.log
+*.egg-info/
+jupyterlab_json/__pycache__/
+jupyterlab_json/static/
+NOTES.md

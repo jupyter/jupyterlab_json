@@ -1,0 +1,35 @@
+{
+  "private": true,
+  "name": "jupyterlab_json",
+  "version": "0.1.0",
+  "description": "A Jupyter Lab extension for rendering JSON",
+  "author": "Grant Nestor",
+  "main": "lib/plugin.js",
+  "keywords": [
+    "jupyter",
+    "jupyterlab"
+  ],
+  "scripts": {
+    "build:src": "tsc --project src && node scripts/copyfiles.js",
+    "build:extension": "node scripts/build_extension.js",
+    "build": "npm run build:src && npm run build:extension",
+    "clean": "rimraf lib && rimraf jupyterlab_json/static",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "jupyterlab": "^0.3.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-json-tree": "^0.10.0"
+  },
+  "devDependencies": {
+    "@jupyterlab/extension-builder": "^0.7.0",
+    "@types/react": "^0.14.43",
+    "@types/react-dom": "^0.14.18",
+    "fs-extra": "^0.30.0",
+    "rimraf": "^2.5.4",
+    "tslint": "^3.15.1",
+    "tslint-react": "^1.1.0",
+    "typescript": "^2.0.3"
+  }
+}
