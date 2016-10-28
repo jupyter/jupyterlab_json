@@ -9,6 +9,9 @@
     "object-literal-sort-keys": false,
     "ordered-imports": false,
     "variable-name": "allow-leading-underscore",
-    "interface-name": false
+    "interface-name": false,
+    "jsx-no-multiline-js": false,
+    "jsx-no-lambda": false,
+    "no-console": false
   }
 }
