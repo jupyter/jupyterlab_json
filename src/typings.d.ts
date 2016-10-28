@@ -8,6 +8,7 @@ type Thenable<T> = Promise<T>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
 declare module 'react-json-tree' {
+
     import { Component, ClassAttributes } from 'react';
 
     interface Props extends ClassAttributes<JSONTree> {
@@ -16,8 +17,14 @@ declare module 'react-json-tree' {
         theme?: {} | string;
         invertTheme?: boolean;
         keyPath?: [string | number];
-        postprocessValue?: Function;
         sortObjectKeys?: Function | boolean;
+        shouldExpandNode?: (keyName: string, data: any, level: number) => boolean;
+        getItemString?: (type: string, data: any, itemType: string, itemString: string) => JSX.Element;
+        labelRenderer?: (raw: [string, string]) => JSX.Element;
+        valueRenderer?: (raw: string) => JSX.Element;
+        postprocessValue?: (raw: string) => JSX.Element;
+        isCustomNode?: () => boolean;
+        collectionLimit?: number;
     }
     export class JSONTree extends Component<Props, {}> { }
 
