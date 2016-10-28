@@ -7,20 +7,29 @@ type Thenable<T> = Promise<T>
 // Definitions by: Grant Nestor <https://github.com/gnestor/>
 // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
 
-declare module 'react-json-tree' {
-    import { Component, ClassAttributes } from 'react';
+declare module "react-json-tree" {
 
-    interface Props extends ClassAttributes<JSONTree> {
-        data: [any] | {};
-        hideRoot?: boolean;
-        theme?: {} | string;
-        invertTheme?: boolean;
-        keyPath?: [string | number];
-        postprocessValue?: Function;
-        sortObjectKeys?: Function | boolean;
-    }
-    export class JSONTree extends Component<Props, {}> { }
+  import {
+    Component,
+    Props
+  } from "react";
 
-    export default JSONTree;
+  export interface JSONTreeProps extends Props<JSONTreeComponent> {
+    data: [any] | {};
+    hideRoot?: boolean;
+    theme?: {} | string;
+    invertTheme?: boolean;
+    keyPath?: [string | number];
+    sortObjectKeys?: Function | boolean;
+    shouldExpandNode?: (keyName: string, data: [any] | {}, level: number) => boolean;
+    getItemString?: (type: string, data: [any] | {}, itemType: string, itemString: string) => JSX.Element;
+    labelRenderer?: (raw: [string, string]) => JSX.Element;
+    valueRenderer?: (raw: string) => JSX.Element;
+    postprocessValue?: (raw: string) => JSX.Element;
+    isCustomNode?: () => boolean;
+    collectionLimit?: number;
+  }
+
+  export default class JSONTreeComponent extends Component<JSONTreeProps, {}> { }
 
 }

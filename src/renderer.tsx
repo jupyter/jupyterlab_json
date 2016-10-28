@@ -1,3 +1,6 @@
+// Copyright (c) Jupyter Development Team.
+// Distributed under the terms of the Modified BSD License.
+
 import {
   RenderMime
 } from 'jupyterlab/lib/rendermime';
@@ -11,14 +14,14 @@ import {
 } from 'phosphor/lib/ui/widget';
 
 import {
+  JSONObject,
   JSONValue
 } from 'phosphor/lib/algorithm/json';
 
-import * as React from 'react';
-
-import * as ReactDOM from 'react-dom';
-
-import JSONTree from 'react-json-tree';
+import {
+  renderComponent,
+  disposeComponent
+} from './component';
 
 const WIDGET_CLASS = 'jp-RenderedJSON';
 
@@ -29,10 +32,11 @@ const WIDGET_CLASS = 'jp-RenderedJSON';
 export
 class RenderedJSON extends Widget {
 
-  constructor(options: RenderMime.IRenderOptions) {
+  constructor(options: RenderMime.IRendererOptions<JSONObject>) {
     super();
     this.addClass(WIDGET_CLASS);
     this._source = options.source;
+    this._ref = null;
   }
 
   /**
@@ -46,14 +50,12 @@ class RenderedJSON extends Widget {
    * A render function given the widget's DOM node.
    */
   private _render(): void {
-    let content: string = this._source.toString();
-    let json: JSONValue = content ? JSON.parse(content) : {};
-    // let json: JSONValue = this._source;
-    ReactDOM.render(<JSONTree data={json} />, this.node);
+    let json: JSONValue = this._source;
+    this._ref = renderComponent(json, this.node);
   }
 
-  // private _source: JSONObject = null;
-  private _source: string = null;
+  private _source: JSONObject = null;
+  private _ref: Element | null;
 
 }
 
@@ -82,7 +84,7 @@ class JSONRenderer implements RenderMime.IRenderer {
   /**
    * Render the transformed mime bundle.
    */
-  render(options: RenderMime.IRenderOptions): Widget {
+  render(options: RenderMime.IRendererOptions<JSONObject>): Widget {
     return new RenderedJSON(options);
   }
 

@@ -2,8 +2,8 @@
 // Distributed under the terms of the Modified BSD License.
 
 import {
-  IKernel
-} from 'jupyter-js-services';
+  Kernel
+} from '@jupyterlab/services';
 
 import {
   JSONValue
@@ -19,15 +19,13 @@ import {
 
 import {
   ABCWidgetFactory,
-  IDocumentModel,
-  IDocumentContext
+  DocumentRegistry
 } from 'jupyterlab/lib/docregistry';
 
-import * as React from 'react';
-
-import * as ReactDOM from 'react-dom';
-
-import JSONTree from 'react-json-tree';
+import {
+  renderComponent,
+  disposeComponent
+} from './component';
 
 /**
  * The class name added to a JSON widget.
@@ -40,16 +38,21 @@ const WIDGET_CLASS = 'jp-JSONWidget';
  */
 export
 class JSONWidget extends Widget {
+
   /**
    * Construct a new map widget.
    */
-  constructor(context: IDocumentContext<IDocumentModel>) {
+  constructor(context: DocumentRegistry.IContext<DocumentRegistry.IModel>) {
     super();
     this._context = context;
+    this._ref = null;
     this.addClass(WIDGET_CLASS);
-    if (context.model.toJSON()) {
+    context.model.contentChanged.connect(() => {
       this.update();
-    }
+    });
+    context.pathChanged.connect(() => {
+      this.update();
+    });
   }
 
   /**
@@ -58,7 +61,7 @@ class JSONWidget extends Widget {
   dispose(): void {
     if (!this.isDisposed) {
       this._context = null;
-      ReactDOM.unmountComponentAtNode(this.node);
+      disposeComponent(this.node);
       super.dispose();
     }
   }
@@ -69,10 +72,10 @@ class JSONWidget extends Widget {
   protected onUpdateRequest(msg: Message): void {
     this.title.label = this._context.path.split('/').pop();
     if (this.isAttached) {
+      console.log(this._context.model);
       let content: string = this._context.model.toString();
       let json: JSONValue = content ? JSON.parse(content) : {};
-      // let json: JSONValue = this._context.model;
-      ReactDOM.render(<JSONTree data={json} />, this.node);
+      this._ref = renderComponent(json, this.node);
     }
   }
 
@@ -83,7 +86,8 @@ class JSONWidget extends Widget {
     this.update();
   }
 
-  private _context: IDocumentContext<IDocumentModel>;
+  private _context: DocumentRegistry.IContext<DocumentRegistry.IModel>;
+  private _ref: Element | null;
 
 }
 
@@ -92,11 +96,12 @@ class JSONWidget extends Widget {
  * A widget factory for maps.
  */
 export
-class JSONWidgetFactory extends ABCWidgetFactory<JSONWidget, IDocumentModel> {
+class JSONWidgetFactory extends ABCWidgetFactory<JSONWidget, DocumentRegistry.IModel> {
+
   /**
    * Create a new widget given a context.
    */
-  createNew(context: IDocumentContext<IDocumentModel>, kernel?: IKernel.IModel): JSONWidget {
+  createNewWidget(context: DocumentRegistry.IContext<DocumentRegistry.IModel>, kernel?: Kernel.IModel): JSONWidget {
     let widget = new JSONWidget(context);
     this.widgetCreated.emit(widget);
     return widget;
