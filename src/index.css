@@ -1,21 +1,8 @@
+/* 
+  Copyright (c) Jupyter Development Team.
+  Distributed under the terms of the Modified BSD License. 
+*/
 
-
-.jp-RenderedVegaCommon svg, .jp-RenderedVegaCommon canvas {
-}
-
-
-.jp-RenderedVegaCommon .vega-actions {
-  font-size: var(--jp-ui-font-size1);
-}
-
-
-.jp-RenderedVegaCommon .vega-actions a {
-  margin-right: 8px;
-}
-
-.jp-MirroredOutputArea .jp-RenderedVegaCommon,
-.jp-BaseVegaWidget .jp-RenderedVegaCommon
- {
-  margin-left: 8px;
-  margin-top: 8px;
+.jp-JSONWidget {
+  padding: 0 10px;
 }

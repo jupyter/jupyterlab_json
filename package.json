@@ -29,6 +29,7 @@
   },
   "devDependencies": {
     "@jupyterlab/extension-builder": "^0.7.0",
+    "@jupyterlab/services": "^0.25.0",
     "@types/react": "^0.14.43",
     "@types/react-dom": "^0.14.18",
     "fs-extra": "^0.30.0",
