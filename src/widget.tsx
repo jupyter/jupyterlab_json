@@ -22,11 +22,10 @@ import {
   DocumentRegistry
 } from 'jupyterlab/lib/docregistry';
 
-import * as React from 'react';
-
-import * as ReactDOM from 'react-dom';
-
-import JSONTree from 'react-json-tree';
+import {
+  renderComponent,
+  disposeComponent
+} from './component';
 
 /**
  * The class name added to a JSON widget.
@@ -46,6 +45,7 @@ class JSONWidget extends Widget {
   constructor(context: DocumentRegistry.IContext<DocumentRegistry.IModel>) {
     super();
     this._context = context;
+    this._ref = null;
     this.addClass(WIDGET_CLASS);
     context.model.contentChanged.connect(() => {
       this.update();
@@ -75,72 +75,7 @@ class JSONWidget extends Widget {
       console.log(this._context.model);
       let content: string = this._context.model.toString();
       let json: JSONValue = content ? JSON.parse(content) : {};
-      ReactDOM.render(
-        <JSONTree
-          data={json}
-          theme={{
-            extend: 'default',
-            tree: 'CodeMirror cm-s-jupyter',
-            // valueLabel: 'cm-variable',
-            valueText: 'cm-string',
-            // nestedNodeLabel: 'cm-variable-2',
-            nestedNodeItemString: 'cm-comment',
-            // value: {},
-            // label: {},
-            // itemRange: {},
-            // nestedNode: {},
-            // nestedNodeItemType: {},
-            // nestedNodeChildren: {},
-            // rootNodeChildren: {}
-          }}
-          labelRenderer={([label, type]) => {
-            switch (type) {
-              case 'array':
-                return <span className="cm-variable-2">{label}: </span>;
-              case 'object':
-                return <span className="cm-variable-3">{label}: </span>;
-              case 'root':
-              default:
-                return <span className="cm-variable">{label}: </span>;
-            }
-          }}
-          valueRenderer={(raw) => {
-            switch (typeof raw) {
-              case 'number':
-                return <span className="cm-number">{raw}</span>;
-              case 'string':
-              default:
-                return <span className="cm-string">{raw}</span>;
-            }
-          }}
-          // getItemString={(type, data, itemType, itemString) => {
-          //   switch (type) {
-          //     case 'label':
-          //       switch (itemType) {
-          //         case 'array':
-          //           return <span className="cm-variable-2">{itemString}: </span>;
-          //         case 'object':
-          //           return <span className="cm-variable-3">{itemString}: </span>;
-          //         case 'root':
-          //         default:
-          //           return <span className="cm-variable">{itemString}: </span>;
-          //       }
-          //     case 'value':
-          //       switch (itemType) {
-          //         case 'number':
-          //           return <span className="cm-number">{itemString}</span>;
-          //         case 'string':
-          //         default:
-          //           return <span className="cm-string">{itemString}</span>;
-          //       }
-          //     default:
-          //       console.log(type, data, itemType, itemString);
-          //       return <span className="cm-variable">{itemString}</span>;
-          //   }
-          // }}
-        />,
-        this.node
-      );
+      this._ref = renderComponent(json, this.node);
     }
   }
 
@@ -152,6 +87,7 @@ class JSONWidget extends Widget {
   }
 
   private _context: DocumentRegistry.IContext<DocumentRegistry.IModel>;
+  private _ref: Element | null;
 
 }
 

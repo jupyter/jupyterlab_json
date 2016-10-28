@@ -18,11 +18,10 @@ import {
   JSONValue
 } from 'phosphor/lib/algorithm/json';
 
-import * as React from 'react';
-
-import * as ReactDOM from 'react-dom';
-
-import JSONTree from 'react-json-tree';
+import {
+  renderComponent,
+  disposeComponent
+} from './component';
 
 const WIDGET_CLASS = 'jp-RenderedJSON';
 
@@ -37,6 +36,7 @@ class RenderedJSON extends Widget {
     super();
     this.addClass(WIDGET_CLASS);
     this._source = options.source;
+    this._ref = null;
   }
 
   /**
@@ -51,75 +51,11 @@ class RenderedJSON extends Widget {
    */
   private _render(): void {
     let json: JSONValue = this._source;
-    ReactDOM.render(
-      <JSONTree
-        data={json}
-        theme={{
-          extend: 'default',
-          tree: 'CodeMirror cm-s-jupyter',
-          // valueLabel: 'cm-variable',
-          valueText: 'cm-string',
-          // nestedNodeLabel: 'cm-variable-2',
-          nestedNodeItemString: 'cm-comment',
-          // value: {},
-          // label: {},
-          // itemRange: {},
-          // nestedNode: {},
-          // nestedNodeItemType: {},
-          // nestedNodeChildren: {},
-          // rootNodeChildren: {}
-        }}
-        labelRenderer={([label, type]) => {
-          switch (type) {
-            case 'array':
-              return <span className="cm-variable-2">{label}: </span>;
-            case 'object':
-              return <span className="cm-variable-3">{label}: </span>;
-            case 'root':
-            default:
-              return <span className="cm-variable">{label}: </span>;
-          }
-        }}
-        valueRenderer={(raw) => {
-          switch (typeof raw) {
-            case 'number':
-              return <span className="cm-number">{raw}</span>;
-            case 'string':
-            default:
-              return <span className="cm-string">{raw}</span>;
-          }
-        }}
-        // getItemString={(type, data, itemType, itemString) => {
-        //   switch (type) {
-        //     case 'label':
-        //       switch (itemType) {
-        //         case 'array':
-        //           return <span className="cm-variable-2">{itemString}: </span>;
-        //         case 'object':
-        //           return <span className="cm-variable-3">{itemString}: </span>;
-        //         case 'root':
-        //         default:
-        //           return <span className="cm-variable">{itemString}: </span>;
-        //       }
-        //     case 'value':
-        //       switch (itemType) {
-        //         case 'number':
-        //           return <span className="cm-number">{itemString}</span>;
-        //         case 'string':
-        //         default:
-        //           return <span className="cm-string">{itemString}</span>;
-        //       }
-        //     default:
-        //       console.log(type, data, itemType, itemString);
-        //       return <span className="cm-variable">{itemString}</span>;
-        //   }
-        // }}
-      />,
-      this.node
-    );
+    this._ref = renderComponent(json, this.node);
   }
 
   private _source: JSONObject = null;
+  private _ref: Element | null;
 
 }
 
