@@ -8,7 +8,7 @@ import * as ReactDOM from 'react-dom';
 import JSONTree from 'react-json-tree';
 
 export
-function renderComponent(json: [any] | {}, node: HTMLElement): any {
+function renderComponent(json: [any] | {}, node: Element): React.Component<{}, React.ComponentState> | Element | void {
   return ReactDOM.render(
     <JSONTree
       data={json}
@@ -54,6 +54,6 @@ function renderComponent(json: [any] | {}, node: HTMLElement): any {
 }
 
 export
-function disposeComponent(node: HTMLElement): void {
+function disposeComponent(node: Element): void {
   ReactDOM.unmountComponentAtNode(node);
 }

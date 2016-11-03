@@ -45,7 +45,6 @@ class JSONWidget extends Widget {
   constructor(context: DocumentRegistry.IContext<DocumentRegistry.IModel>) {
     super();
     this._context = context;
-    this._ref = null;
     this.addClass(WIDGET_CLASS);
     context.model.contentChanged.connect(() => {
       this.update();
@@ -75,7 +74,7 @@ class JSONWidget extends Widget {
       console.log(this._context.model);
       let content: string = this._context.model.toString();
       let json: JSONValue = content ? JSON.parse(content) : {};
-      this._ref = renderComponent(json, this.node);
+      this._ref = renderComponent(json, this.node) as Element;
     }
   }
 
@@ -87,7 +86,7 @@ class JSONWidget extends Widget {
   }
 
   private _context: DocumentRegistry.IContext<DocumentRegistry.IModel>;
-  private _ref: Element | null;
+  private _ref: Element;
 
 }
 
