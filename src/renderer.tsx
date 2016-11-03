@@ -47,6 +47,13 @@ class RenderedJSON extends Widget {
   }
 
   /**
+   * A message handler invoked on an `'before-detach'` message.
+   */
+  protected onBeforeDetach(msg: Message): void {
+    disposeComponent(this._ref);
+  }
+
+  /**
    * A render function given the widget's DOM node.
    */
   private _render(): void {

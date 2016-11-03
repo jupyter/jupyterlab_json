@@ -33,7 +33,7 @@ const DEFAULT_EXTENSIONS = ['.json'];
  * Activate the table widget extension.
  */
 function activateJSONPlugin(app: JupyterLab, rendermime: IRenderMime, registry: IDocumentRegistry): void {
-  
+
   /**
    * Add the MIME type based renderers at the beginning of the renderers.
    */
