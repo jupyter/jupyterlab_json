@@ -36,7 +36,6 @@ class RenderedJSON extends Widget {
     super();
     this.addClass(WIDGET_CLASS);
     this._source = options.source;
-    this._ref = null;
   }
 
   /**
@@ -58,11 +57,11 @@ class RenderedJSON extends Widget {
    */
   private _render(): void {
     let json: JSONValue = this._source;
-    this._ref = renderComponent(json, this.node);
+    this._ref = renderComponent(json, this.node) as Element;
   }
 
   private _source: JSONObject = null;
-  private _ref: Element | null;
+  private _ref: Element;
 
 }
 
