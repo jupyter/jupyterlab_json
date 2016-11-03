@@ -32,6 +32,7 @@
     "@jupyterlab/services": "^0.25.0",
     "@types/react": "^0.14.43",
     "@types/react-dom": "^0.14.18",
+    "@types/react-json-tree": "^0.6.1",
     "fs-extra": "^0.30.0",
     "rimraf": "^2.5.4",
     "tslint": "^3.15.1",
