@@ -4,7 +4,7 @@ A Jupyter Lab extension for rendering JSON
 
 ## Prerequisites
 
-* JupyterLab 0.7.0 or later
+* JupyterLab 0.8.0 or later
 
 ## Usage
 

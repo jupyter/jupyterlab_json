@@ -1,9 +1,9 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noEmitOnError": true,
-    "lib": ["es5", "dom", "es2015.promise"],
+    "lib": ["es6", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",

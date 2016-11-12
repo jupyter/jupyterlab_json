@@ -18,9 +18,12 @@ import {
   JSONValue
 } from 'phosphor/lib/algorithm/json';
 
+import * as React from 'react';
+
+import * as ReactDOM from 'react-dom';
+
 import {
-  renderComponent,
-  disposeComponent
+  JSONComponent
 } from './component';
 
 const WIDGET_CLASS = 'jp-RenderedJSON';
@@ -49,7 +52,7 @@ class RenderedJSON extends Widget {
    * A message handler invoked on an `'before-detach'` message.
    */
   protected onBeforeDetach(msg: Message): void {
-    disposeComponent(this._ref);
+    ReactDOM.unmountComponentAtNode(this.node);
   }
 
   /**
@@ -57,11 +60,10 @@ class RenderedJSON extends Widget {
    */
   private _render(): void {
     let json: JSONValue = this._source;
-    this._ref = renderComponent(json, this.node) as Element;
+    ReactDOM.render(<JSONComponent data={json} />, this.node) as Element;
   }
 
   private _source: JSONObject = null;
-  private _ref: Element;
 
 }
 

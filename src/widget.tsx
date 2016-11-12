@@ -22,9 +22,12 @@ import {
   DocumentRegistry
 } from 'jupyterlab/lib/docregistry';
 
+import * as React from 'react';
+
+import * as ReactDOM from 'react-dom';
+
 import {
-  renderComponent,
-  disposeComponent
+  JSONComponent
 } from './component';
 
 /**
@@ -60,7 +63,7 @@ class JSONWidget extends Widget {
   dispose(): void {
     if (!this.isDisposed) {
       this._context = null;
-      disposeComponent(this.node);
+      ReactDOM.unmountComponentAtNode(this.node);
       super.dispose();
     }
   }
@@ -74,7 +77,7 @@ class JSONWidget extends Widget {
       console.log(this._context.model);
       let content: string = this._context.model.toString();
       let json: JSONValue = content ? JSON.parse(content) : {};
-      this._ref = renderComponent(json, this.node) as Element;
+      ReactDOM.render(<JSONComponent data={json} />, this.node) as Element;
     }
   }
 
@@ -86,7 +89,6 @@ class JSONWidget extends Widget {
   }
 
   private _context: DocumentRegistry.IContext<DocumentRegistry.IModel>;
-  private _ref: Element;
 
 }
 
