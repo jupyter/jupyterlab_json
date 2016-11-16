@@ -10,7 +10,7 @@ A Jupyter Lab extension for rendering JSON
 
 To render [JSON-able dict or list](https://ipython.org/ipython-doc/3/api/generated/IPython.display.html#IPython.display.JSON) in IPython as a tree:
 
-![output renderer](http://g.recordit.co/2sRtRtPlLs.gif)
+![output renderer](http://g.recordit.co/QAsC7YULcY.gif)
 
 ```python
 from IPython.display import JSON
@@ -26,7 +26,7 @@ JSON({
 
 To render a JSON file as a tree, simply open it:
 
-![file renderer](http://g.recordit.co/ENRlabdByw.gif)
+![file renderer](http://g.recordit.co/cbf0xnQHKn.gif)
 
 ## Installation
 
