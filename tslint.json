@@ -12,6 +12,7 @@
     "interface-name": false,
     "jsx-no-multiline-js": false,
     "jsx-no-lambda": false,
+    "jsx-alignment": false,
     "no-console": false,
     "curly": false
   }
