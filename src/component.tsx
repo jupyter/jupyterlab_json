@@ -29,6 +29,7 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
     this.state = {
       filter: ''
     };
+    this.timer = 0;
   }
 
   public componentDidMount() {
@@ -43,6 +44,8 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
 
   public render() {
     let data = this.props.data;
+    // if (this.state.filter) data = filterObject(data, this.state.filter);
+    let keyPaths = this.state.filter ? filterPaths(data, this.state.filter) : ['root'];
     return (
       <div
         style={{
@@ -50,9 +53,13 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
         }}
       >
         <input
-          value={this.state.filter}
           onChange={(event) => {
-            this.setState({filter: (event.target as any).value});
+            let filter = (event.target as any).value;
+            if (this.timer) clearTimeout(this.timer);
+            this.timer = setTimeout(() => {
+              this.setState({filter});
+              this.timer = 0;
+            }, 300);
           }}
           style={{
             position: 'absolute',
@@ -62,14 +69,14 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
             maxWidth: 150,
             zIndex: 10,
             fontSize: 13,
-            paddingHorizontal: 4,
-            paddingVertical: 2
+            padding: '4px'
           }}
           type="text"
           placeholder="Filter..."
         />
         <JSONTree
           data={data}
+          collectionLimit={100}
           theme={{
             extend: 'default',
             // TODO: Use Jupyter Lab's current CodeMirror theme vs. 'cm-s-jupyter'
@@ -83,8 +90,10 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
             // itemRange: {},
             // nestedNode: {},
             // nestedNodeItemType: {},
-            // nestedNodeChildren: {},
-            // rootNodeChildren: {}
+            // nestedNodeChildren: {,
+            arrowSign: {
+              color: 'cm-variable'
+            }
           }}
           labelRenderer={([label, type]) => {
             let className;
@@ -126,17 +135,60 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
                   search={this.state.filter}
                   matchStyle={{ backgroundColor: 'yellow' }}
                 >
-                  {raw.toString()}
+                  {`${raw}`}
                 </Highlight>
               </span>
             );
           }}
-          shouldExpandNode={(keyName, data, level) => {
-            return (this.state.filter !== '' && JSON.stringify(data).includes(this.state.filter)) || level < 1;
+          shouldExpandNode={(keyPath, data, level) => {
+            return keyPaths.includes(keyPath.join(','));
           }}
         />
       </div>
     );
   }
 
+  private timer: number = 0;
+
+}
+
+function objectIncludes(data, query: string): boolean {
+  return JSON.stringify(data).includes(query);
+}
+
+function filterObject(data, query: string) {
+  if (data instanceof Array) {
+    return data.reduce((result, item) => {
+      if (objectIncludes(item, query)) {
+        return [...result, filterObject(item, query)];
+      }
+      return result;
+    }, []);
+  }
+  if (data && typeof(data) === 'object') {
+    return Object.keys(data).reduce((result, key) => {
+      let item = data[key];
+      if (key.includes(query) || objectIncludes(item, query)) result[key] = filterObject(item, query);
+      return result;
+    }, {});
+  }
+  return data;
+}
+
+function filterPaths(data, query: string, parent: (string | number)[] = ['root']) {
+  if (data instanceof Array) {
+    return data.reduce((result, item, index) => {
+      if (item && typeof(item) === 'object' && objectIncludes(item, query)) {
+        return [...result, [index, ...parent].join(','), ...filterPaths(item, query, [index, ...parent])];
+      }
+      return result;
+    }, []);
+  }
+  return Object.keys(data).reduce((result, key) => {
+    let item = data[key];
+    if (item && typeof(item) === 'object' && (key.includes(query) || objectIncludes(item, query))) {
+      return [...result, [key, ...parent].join(','), ...filterPaths(item, query, [key, ...parent])];
+    }
+    return result;
+  }, []);
 }

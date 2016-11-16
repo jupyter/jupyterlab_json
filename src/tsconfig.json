@@ -3,7 +3,7 @@
     "declaration": true,
     "noImplicitAny": false,
     "noEmitOnError": true,
-    "lib": ["es6", "dom"],
+    "lib": ["es2016", "dom"],
     "module": "commonjs",
     "moduleResolution": "node",
     "target": "es5",
