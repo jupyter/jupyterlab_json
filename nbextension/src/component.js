@@ -1,48 +1,18 @@
-// Copyright (c) Jupyter Development Team.
-// Distributed under the terms of the Modified BSD License.
-
-import * as React from 'react';
-
-import * as ReactDOM from 'react-dom';
-
+import React from 'react';
 import JSONTree from 'react-json-tree';
+import Highlight from 'react-highlighter';
 
-import * as Highlight from 'react-highlighter';
-
-import {
-  JSONValue
-} from 'phosphor/lib/algorithm/json';
-
-export interface JSONComponentProps {
-  data: JSONValue;
-}
-
-export interface JSONComponentState {
-  filter: string;
-}
-
-export
-class JSONComponent extends React.Component<JSONComponentProps, JSONComponentState> {
+export default class JSONComponent extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
       filter: ''
     };
-    this.timer = 0;
+    this.timer = null;
   }
 
-  public componentDidMount() {
-    /**
-     * Stop propagation of keyboard events to JupyterLab to prevent triggering 
-     * keyboard shortcuts. 
-     */
-    ReactDOM.findDOMNode(this).addEventListener('keydown', (event) => {
-      event.stopPropagation();
-    }, false);
-  }
-
-  public render() {
+  render() {
     let data = this.props.data;
     // if (this.state.filter) data = filterObject(data, this.state.filter);
     let keyPaths = this.state.filter ? filterPaths(data, this.state.filter) : ['root'];
@@ -54,11 +24,11 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
       >
         <input
           onChange={(event) => {
-            let filter = (event.target as any).value;
+            let filter = event.target.value;
             if (this.timer) clearTimeout(this.timer);
             this.timer = setTimeout(() => {
               this.setState({filter});
-              this.timer = 0;
+              this.timer = null;
             }, 300);
           }}
           style={{
@@ -69,7 +39,7 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
             maxWidth: 150,
             zIndex: 10,
             fontSize: 13,
-            padding: '4px'
+            padding: '4px 2px'
           }}
           type="text"
           placeholder="Filter..."
@@ -79,8 +49,8 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
           collectionLimit={100}
           theme={{
             extend: 'default',
-            // TODO: Use Jupyter Lab's current CodeMirror theme vs. 'cm-s-jupyter'
-            tree: 'CodeMirror cm-s-jupyter',
+            // TODO: Use Jupyter Notebook's current CodeMirror theme vs. 'cm-s-ipython'
+            tree: 'CodeMirror cm-s-ipython',
             // valueLabel: 'cm-variable',
             valueText: 'cm-string',
             // nestedNodeLabel: 'cm-variable-2',
@@ -90,7 +60,8 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
             // itemRange: {},
             // nestedNode: {},
             // nestedNodeItemType: {},
-            // nestedNodeChildren: {,
+            // nestedNodeChildren: {},
+            // rootNodeChildren: {},
             arrowSign: {
               color: 'cm-variable'
             }
@@ -148,16 +119,14 @@ class JSONComponent extends React.Component<JSONComponentProps, JSONComponentSta
     );
   }
 
-  private timer: number = 0;
-
 }
 
-function objectIncludes(data, query: string): boolean {
+function objectIncludes(data, query) {
   return JSON.stringify(data).includes(query);
 }
 
-function filterObject(data, query: string) {
-  if (data instanceof Array) {
+function filterObject(data, query) {
+  if (Array.isArray(data)) {
     return data.reduce((result, item) => {
       if (objectIncludes(item, query)) {
         return [...result, filterObject(item, query)];
@@ -175,20 +144,18 @@ function filterObject(data, query: string) {
   return data;
 }
 
-function filterPaths(data, query: string, parent: (string | number)[] = ['root']) {
-  if (data instanceof Array) {
+function filterPaths(data, query, parent = ['root']) {
+  if (Array.isArray(data)) {
     return data.reduce((result, item, index) => {
-      if (item && typeof(item) === 'object' && objectIncludes(item, query)) {
-        return [...result, [index, ...parent].join(','), ...filterPaths(item, query, [index, ...parent])];
-      }
+      if (item && typeof(item) === 'object' && objectIncludes(item, query)) return [...result, [index, ...parent].join(','), ...filterPaths(item, query, [index, ...parent])];
       return result;
     }, []);
   }
-  return Object.keys(data).reduce((result, key) => {
-    let item = data[key];
-    if (item && typeof(item) === 'object' && (key.includes(query) || objectIncludes(item, query))) {
-      return [...result, [key, ...parent].join(','), ...filterPaths(item, query, [key, ...parent])];
-    }
-    return result;
-  }, []);
+  if (typeof(data) === 'object') {
+    return Object.keys(data).reduce((result, key) => {
+      let item = data[key];
+      if (item && typeof(item) === 'object' && (key.includes(query) || objectIncludes(item, query))) return [...result, [key, ...parent].join(','), ...filterPaths(item, query, [key, ...parent])];
+      return result;
+    }, []);
+  }
 }
