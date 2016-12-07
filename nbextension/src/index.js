@@ -8,5 +8,5 @@
 __webpack_public_path__ = document.querySelector('body').getAttribute('data-base-url') + 'nbextensions/jupyterlab_json/';
 
 // Export widget models and views, and the npm package version number.
-module.exports = require('./renderer.js');
-module.exports['version'] = require('../package.json').version;
+export { register_renderer, render_cells } from './renderer.js';
+export { version } from '../package.json';

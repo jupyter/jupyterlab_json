@@ -4,4 +4,4 @@
 // dynamic baseURL for the static assets and may load some css that would
 // already be loaded by the notebook otherwise.
 
-module.exports['version'] = require('../package.json').version;
+export { version } from '../package.json';

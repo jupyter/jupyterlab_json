@@ -1,18 +1,13 @@
 {
   "name": "jupyterlab_json_nbextension",
   "version": "0.0.1",
-  "description": "A Jupyter Notebook extension for rendering JSON data",
+  "description": "A Jupyter Notebook extension for rendering JSON",
   "author": "Grant Nestor",
-  "main": "src/index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jupyter/notebook_json.git"
-  },
+  "main": "lib/index.js",
   "keywords": [
     "jupyter",
-    "widgets",
-    "ipython",
-    "ipywidgets"
+    "jupyterlab",
+    "jupyterlab extension"
   ],
   "scripts": {
     "build": "webpack",

@@ -4,24 +4,22 @@
 
 // Configure requirejs
 if (window.require) {
-    window.require.config({
-        map: {
-            "*" : {
-                "jupyterlab_json": "nbextensions/jupyterlab_json/index"
-            }
-        }
-    });
+  window.require.config({
+    map: {
+      '*': {
+        'jupyterlab_json': 'nbextensions/jupyterlab_json/index'
+      }
+    }
+  });
 }
 
 // Export the required load_ipython_extention
-module.exports = {
-    load_ipython_extension: function() {
-        define([
-            "nbextensions/jupyterlab_json/index",
-            "jquery"
-        ], function(JSONExtension, $) {
-            JSONExtension.register_renderer($);
-            JSONExtension.render_cells($);
-        });
-    }
+export function load_ipython_extension() {
+  define([
+    'nbextensions/jupyterlab_json/index',
+    'jquery'
+  ], (Extension, $) => {
+    Extension.register_renderer($);
+    Extension.render_cells($);
+  });
 };
