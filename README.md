@@ -1,10 +1,10 @@
 # jupyterlab_json
 
-A Jupyter Lab extension for rendering JSON
+A Jupyter Lab extension for rendering JSON output and JSON files and a Jupyter Notebook extension for rendering JSON output
 
 ## Prerequisites
 
-* JupyterLab 0.8.0 or later
+* Notebook >=4.3 or JupyterLab >=0.8.0
 
 ## Usage
 
@@ -34,31 +34,50 @@ To install using pip:
 
 ```bash
 pip install jupyterlab_json
+# For JupyterLab
 jupyter labextension install --py --sys-prefix jupyterlab_json
 jupyter labextension enable --py --sys-prefix jupyterlab_json
+# For Notebook
+jupyter nbextension install --py --sys-prefix jupyterlab_json
+jupyter nbextension enable --py --sys-prefix jupyterlab_json
 ```
 
 ## Development
 
-For a development install (requires npm version 4 or later), do the following in the repository directory:
+### Set up using install script
+
+Use the `install.sh` script to build the Javascript, install the Python package, and install/enable the notebook and lab extensions:
 
 ```bash
-npm install
+bash install.sh --sys-prefix
+```
+
+Use the `build.sh` script to rebuild the Javascript:
+
+```bash
+bash build.sh
+```
+
+### Set up manually
+
+Alternatively, see the `README.md` in `/labextension` and `/nbextension` for extension-specific build instructions. 
+
+To install the Python package:
+
+```bash
 pip install -e .
+```
+
+To install the extension for Jupyter Lab:
+
+```bash
 jupyter labextension install --symlink --py --sys-prefix jupyterlab_json
-# or npm run install:extension
 jupyter labextension enable --py --sys-prefix jupyterlab_json
-# or npm run enable:extension
 ```
 
-To rebuild the extension bundle:
+To install the extension for Jupyter Notebook:
 
 ```bash
-npm run build
-```
-
-Or to watch the `src` directory and rebuild on changes:
-
-```bash
-npm run watch
+jupyter nbextension install --symlink --py --sys-prefix jupyterlab_json
+jupyter nbextension enable --py --sys-prefix jupyterlab_json
 ```
