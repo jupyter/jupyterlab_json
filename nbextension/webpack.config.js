@@ -37,6 +37,10 @@ module.exports = [
             path: '../jupyterlab_json/static',
             libraryTarget: 'amd'
         },
+        devtool: 'source-map',
+        module: {
+            loaders: loaders,
+        },
         externals: [
             'nbextensions/jupyterlab_json/index',
             'jquery'
@@ -76,7 +80,7 @@ module.exports = [
         entry: './src/embed.js',
         output: {
             filename: 'index.js',
-            path: './lib/',
+            path: './embed/',
             libraryTarget: 'amd',
             publicPath: 'https://unpkg.com/jupyterlab_json@' + version + '/lib/'
         },
