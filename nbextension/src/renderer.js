@@ -9,7 +9,7 @@ var MIME_TYPE = 'application/json';
 // Render data to the output area
 // 
 function render(data, node) {
-    ReactDOM.render(<Component data={data} />, node);
+    ReactDOM.render(<Component data={data} theme="cm-s-ipython" />, node);
 }
 
 //
