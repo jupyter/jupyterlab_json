@@ -50,7 +50,7 @@ export default class JSONComponent extends React.Component {
           theme={{
             extend: 'default',
             // TODO: Use Jupyter Notebook's current CodeMirror theme vs. 'cm-s-ipython'
-            tree: 'CodeMirror cm-s-ipython',
+            tree: `CodeMirror ${this.props.theme || 'cm-s-ipython'}`,
             // valueLabel: 'cm-variable',
             valueText: 'cm-string',
             // nestedNodeLabel: 'cm-variable-2',

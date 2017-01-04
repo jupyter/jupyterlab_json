@@ -39,7 +39,7 @@ export class OutputWidget extends Widget {
    */
   _render() {
     let json = this._source;
-    ReactDOM.render(<Component data={json} />, this.node);
+    ReactDOM.render(<Component data={json} theme="cm-s-jupyter" />, this.node);
   }
 
 }
