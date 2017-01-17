@@ -14,6 +14,7 @@ To render [JSON-able dict or list](https://ipython.org/ipython-doc/3/api/generat
 
 ```python
 from IPython.display import JSON
+
 JSON({
     'string': 'string',
     'array': [1, 2, 3],
