@@ -4,10 +4,7 @@ A JupyterLab extension for rendering JSON output and files
 
 ## Prerequisites
 
-<<<<<<< 0b7cfde46b61523e30d557319e0b6ea2ce3dd35f
-* JupyterLab >= 0.11
-=======
-* JupyterLab >=0.11.0
+* JupyterLab 0.15
 
 ## Usage
 
