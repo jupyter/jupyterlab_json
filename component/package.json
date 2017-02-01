@@ -13,6 +13,8 @@
   "author": "Grant Nestor <grantnestor@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "react": "^15.3.2"
+    "react": "^15.3.2",
+    "react-highlighter": "^0.3.3",
+    "react-json-tree": "^0.10.1"
   }
 }

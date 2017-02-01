@@ -1,27 +1,30 @@
 import React from 'react';
 import JSONTree from 'react-json-tree';
 import Highlight from 'react-highlighter';
+import './index.css';
 
-export default class JSON extends React.Component {
+export default class JSONComponent extends React.Component {
+  state = { filter: '' };
+  timer = null;
 
   render() {
-    let data = this.props.data;
-    // if (this.state.filter) data = filterObject(data, this.state.filter);
-    let keyPaths = this.state.filter ? filterPaths(data, this.state.filter) : ['root'];
+    const { data } = this.props;
+    const keyPaths = this.state.filter
+      ? filterPaths(data, this.state.filter)
+      : [ 'root' ];
     return (
-      <div
-        style={{
-          position: 'relative'
-        }}
-      >
+      <div style={{ position: 'relative' }}>
         <input
-          onChange={(event) => {
-            let filter = event.target.value;
+          onChange={event => {
+            const filter = event.target.value;
             if (this.timer) clearTimeout(this.timer);
-            this.timer = setTimeout(() => {
-              this.setState({filter});
-              this.timer = null;
-            }, 300);
+            this.timer = setTimeout(
+              () => {
+                this.setState({ filter });
+                this.timer = null;
+              },
+              300
+            );
           }}
           style={{
             position: 'absolute',
@@ -54,11 +57,9 @@ export default class JSON extends React.Component {
             // nestedNodeItemType: {},
             // nestedNodeChildren: {},
             // rootNodeChildren: {},
-            arrowSign: {
-              color: 'cm-variable'
-            }
+            arrowSign: { color: 'cm-variable' }
           }}
-          labelRenderer={([label, type]) => {
+          labelRenderer={([ label, type ]) => {
             let className;
             switch (type) {
               case 'array':
@@ -103,14 +104,12 @@ export default class JSON extends React.Component {
               </span>
             );
           }}
-          shouldExpandNode={(keyPath, data, level) => {
-            return keyPaths.includes(keyPath.join(','));
-          }}
+          shouldExpandNode={(keyPath, data, level) =>
+            keyPaths.join(',').includes(keyPath.join(','))}
         />
       </div>
     );
   }
-
 }
 
 function objectIncludes(data, query) {
@@ -119,19 +118,56 @@ function objectIncludes(data, query) {
 
 function filterObject(data, query) {
   if (Array.isArray(data)) {
-    return data.reduce((result, item) => {
-      if (objectIncludes(item, query)) {
-        return [...result, filterObject(item, query)];
-      }
-      return result;
-    }, []);
+    return data.reduce(
+      (result, item) => {
+        if (objectIncludes(item, query)) {
+          return [ ...result, filterObject(item, query) ];
+        }
+        return result;
+      },
+      []
+    );
   }
-  if (data && typeof(data) === 'object') {
+  if (data && typeof data === 'object') {
     return Object.keys(data).reduce((result, key) => {
       let item = data[key];
-      if (key.includes(query) || objectIncludes(item, query)) result[key] = filterObject(item, query);
+      if (key.includes(query) || objectIncludes(item, query))
+        result[key] = filterObject(item, query);
       return result;
     }, {});
   }
+  return data;
+}
 
+function filterPaths(data, query, parent = [ 'root' ]) {
+  if (Array.isArray(data)) {
+    return data.reduce(
+      (result, item, index) => {
+        if (item && typeof item === 'object' && objectIncludes(item, query))
+          return [
+            ...result,
+            [ index, ...parent ].join(','),
+            ...filterPaths(item, query, [ index, ...parent ])
+          ];
+        return result;
+      },
+      []
+    );
+  }
+  if (typeof data === 'object') {
+    return Object.keys(data).reduce((result, key) => {
+      let item = data[key];
+      if (
+        item &&
+          typeof item === 'object' &&
+          (key.includes(query) || objectIncludes(item, query))
+      )
+        return [
+          ...result,
+          [ key, ...parent ].join(','),
+          ...filterPaths(item, query, [ key, ...parent ])
+        ];
+      return result;
+    }, []);
+  }
 }
