@@ -1,7 +1,7 @@
 import { Widget } from 'phosphor/lib/ui/widget';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import JSON from 'jupyterlab_json_react';
+import JSONComponent from 'jupyterlab_json_react';
 
 /**
  * The class name added to this OutputWidget.
@@ -37,7 +37,7 @@ export class OutputWidget extends Widget {
    */
   _render() {
     let json = this._source;
-    ReactDOM.render(<JSON data={json} />, this.node);
+    ReactDOM.render(<JSONComponent data={json} theme="cm-s-jupyter" />, this.node);
   }
 }
 
