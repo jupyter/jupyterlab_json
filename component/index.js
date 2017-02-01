@@ -1,11 +1,36 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import JSONTree from 'react-json-tree';
 import Highlight from 'react-highlighter';
 import './index.css';
 
 export default class JSONComponent extends React.Component {
   state = { filter: '' };
+  input = null;
   timer = null;
+
+  componentDidMount() {
+    /**
+     * Stop propagation of keyboard events to JupyterLab 
+     */
+    ReactDOM.findDOMNode(this.input).addEventListener(
+      'keydown',
+      event => {
+        event.stopPropagation();
+      },
+      false
+    );
+  }
+
+  componentWillUnmount() {
+    ReactDOM.findDOMNode(this.input).removeEventListener(
+      'keydown',
+      event => {
+        event.stopPropagation();
+      },
+      false
+    );
+  }
 
   render() {
     const { data } = this.props;
@@ -15,6 +40,7 @@ export default class JSONComponent extends React.Component {
     return (
       <div style={{ position: 'relative' }}>
         <input
+          ref={ref => this.input = ref}
           onChange={event => {
             const filter = event.target.value;
             if (this.timer) clearTimeout(this.timer);
