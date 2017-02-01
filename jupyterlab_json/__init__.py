@@ -1,4 +1,5 @@
 from IPython.display import display
+import json
 
 
 # Running `npm run build` will create static resources in the static
@@ -27,7 +28,6 @@ def _jupyter_nbextension_paths():
 def JSON(data):
     bundle = {
         'application/json': data,
-        'application/json': data,
-        'text/plain': '<jupyterlab_json.JSON object>'
+        'text/plain': json.dumps(data, indent=4)
     }
     display(bundle, raw=True)
