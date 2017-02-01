@@ -1,4 +1,4 @@
-div.output_subarea, .output_JSON, .rendered_html {
+div.output_subarea .output_JSON {
   padding: 0.4em 0;
   max-width: 100%;
 }

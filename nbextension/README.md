@@ -1,28 +1,10 @@
 # jupyterlab_json Jupyter Notebook extension
 
-A Jupyter Notebook extension for rendering JSON output
+A Jupyter Notebook extension for rendering JSON
 
 ## Prerequisites
 
-* Notebook >=4.3
-
-## Usage
-
-To render JSON output in IPython:
-
-![screenshot](http://g.recordit.co/oKTa52HTK9.gif)
-
-```python
-from IPython.display import JSON
-JSON({
-    'string': 'string',
-    'array': [1, 2, 3],
-    'bool': True,
-    'object': {
-        'foo': 'bar'
-    }
-})
-```
+* `notebook>=4.3`
 
 ## Development
 

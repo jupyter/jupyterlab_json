@@ -30,6 +30,7 @@ setup_args = dict(
     include_package_data = True,
     install_requires = [
         'jupyterlab>=0.14.0',
+        'ipython>=1.0.0'
     ]
 )
 

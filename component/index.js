@@ -2,15 +2,7 @@ import React from 'react';
 import JSONTree from 'react-json-tree';
 import Highlight from 'react-highlighter';
 
-export default class JSONComponent extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      filter: ''
-    };
-    this.timer = null;
-  }
+export default class JSON extends React.Component {
 
   render() {
     let data = this.props.data;
@@ -141,21 +133,5 @@ function filterObject(data, query) {
       return result;
     }, {});
   }
-  return data;
-}
 
-function filterPaths(data, query, parent = ['root']) {
-  if (Array.isArray(data)) {
-    return data.reduce((result, item, index) => {
-      if (item && typeof(item) === 'object' && objectIncludes(item, query)) return [...result, [index, ...parent].join(','), ...filterPaths(item, query, [index, ...parent])];
-      return result;
-    }, []);
-  }
-  if (typeof(data) === 'object') {
-    return Object.keys(data).reduce((result, key) => {
-      let item = data[key];
-      if (item && typeof(item) === 'object' && (key.includes(query) || objectIncludes(item, query))) return [...result, [key, ...parent].join(','), ...filterPaths(item, query, [key, ...parent])];
-      return result;
-    }, []);
-  }
 }
