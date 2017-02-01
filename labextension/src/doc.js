@@ -2,23 +2,21 @@ import { Widget } from 'phosphor/lib/ui/widget';
 import { ABCWidgetFactory } from 'jupyterlab/lib/docregistry';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Component from './component';
+import JSONComponent from 'jupyterlab_json_react';
 
 /**
  * The class name added to this DocWidget.
  */
-const WIDGET_CLASS = 'jp-JSONWidget';
-
+const CLASS_NAME = 'jp-DocWidgetJSON';
 
 /**
  * A widget for rendering jupyterlab_json files.
  */
 export class DocWidget extends Widget {
-
   constructor(context) {
     super();
     this._context = context;
-    this.addClass(WIDGET_CLASS);
+    this.addClass(CLASS_NAME);
     context.model.contentChanged.connect(() => {
       this.update();
     });
@@ -46,7 +44,7 @@ export class DocWidget extends Widget {
     if (this.isAttached) {
       let content = this._context.model.toString();
       let json = content ? JSON.parse(content) : {};
-      ReactDOM.render(<Component data={json} theme="cm-s-jupyter" />, this.node);
+      ReactDOM.render(<JSONComponent data={json} theme="cm-s-jupyter" />, this.node);
     }
   }
 
@@ -56,19 +54,16 @@ export class DocWidget extends Widget {
   onAfterAttach(msg) {
     this.update();
   }
-
 }
-
 
 /**
  * A widget factory for DocWidget.
  */
 export class DocWidgetFactory extends ABCWidgetFactory {
-
   constructor(options) {
     super(options);
   }
-  
+
   /**
    * Create a new widget given a context.
    */
@@ -77,5 +72,4 @@ export class DocWidgetFactory extends ABCWidgetFactory {
     this.widgetCreated.emit(widget);
     return widget;
   }
-
 }

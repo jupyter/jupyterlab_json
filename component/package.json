@@ -1,0 +1,20 @@
+{
+  "name": "jupyterlab_json_react",
+  "version": "1.0.0",
+  "description": "A React component for rendering JSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "jupyter",
+    "react"
+  ],
+  "author": "Grant Nestor <grantnestor@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-highlighter": "^0.3.3",
+    "react-json-tree": "^0.10.1"
+  }
+}

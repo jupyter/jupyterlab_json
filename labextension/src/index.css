@@ -3,7 +3,15 @@
   Distributed under the terms of the Modified BSD License. 
 */
 
-.jp-JSONWidget {
-  padding: 0 10px;
+.jp-OutputWidgetJSON, .jp-DocWidgetJSON {
+  padding: 0;
   overflow-y: scroll;
+}
+
+.jp-OutputWidgetJSON {
+  
+}
+
+.jp-DocWidgetJSON {
+  
 }
