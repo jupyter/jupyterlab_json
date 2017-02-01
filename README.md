@@ -1,31 +1,31 @@
 # jupyterlab_json
 
-A JupyterLab and Jupyter Notebook extension for rendering JSON
-
-![output renderer](http://g.recordit.co/QAsC7YULcY.gif)
+A JupyterLab and Jupyter Notebook extension for rendering JSON data
 
 ## Prerequisites
 
-* JupyterLab ^0.14 and/or Notebook >=4.3
+* JupyterLab ^0.15.0 and/or Notebook >=4.3.0
 
 ## Usage
 
-To render JSON output in IPython:
+To render [JSON-able dict or list](https://ipython.org/ipython-doc/3/api/generated/IPython.display.html#IPython.display.JSON) in IPython:
+
+![output renderer](http://g.recordit.co/QAsC7YULcY.gif)
 
 ```python
-from jupyterlab_json import JSON
+from IPython.display import JSON
 
 JSON({
-    "string": "string",
-    "array": [1, 2, 3],
-    "bool": True,
-    "object": {
-        "foo": "bar"
+    'string': 'string',
+    'array': [1, 2, 3],
+    'bool': True,
+    'object': {
+        'foo': 'bar'
     }
 })
 ```
 
-To render a `.json` file as a tree, simply open it:
+To render a JSON file in JupyterLab, simply open it:
 
 ![file renderer](http://g.recordit.co/cbf0xnQHKn.gif)
 
