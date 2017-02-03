@@ -32,7 +32,7 @@ function activatePlugin(app, rendermime, registry) {
   /**
    * Set the extensions associated with JSON.
    */
-  const EXTENSIONS = [ '.json' ];
+  const EXTENSIONS = [ '.json', '.ipynb' ];
   const DEFAULT_EXTENSIONS = [ '.json' ];
 
   /**
