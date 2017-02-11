@@ -4,7 +4,7 @@ A JupyterLab and Jupyter Notebook extension for rendering JSON data
 
 ## Prerequisites
 
-* JupyterLab ^0.15.0 and/or Notebook >=4.3.0
+* JupyterLab ^0.16.0 and/or Notebook >=4.3.0
 
 ## Usage
 
