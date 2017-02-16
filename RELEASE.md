@@ -11,7 +11,7 @@ Update the version number in `setup.py`, `labextension/package.json`, and `nbext
 Remove old Javascript bundle and Python package builds:
 
 ```bash
-rm -rf jupyterlab_json/static
+git clean -xfd
 ```
 
 ## Build the package
@@ -19,7 +19,6 @@ rm -rf jupyterlab_json/static
 Build the Javascript extension bundle, then build the Python package and wheel:
 
 ```bash
-bash build.js
 python setup.py sdist
 python setup.py bdist_wheel --universal
 ```

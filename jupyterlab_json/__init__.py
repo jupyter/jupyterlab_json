@@ -1,4 +1,4 @@
-from IPython.display import display
+from IPython.display import display, JSON
 import json
 
 
@@ -21,14 +21,25 @@ def _jupyter_nbextension_paths():
     }]
 
 
-# A display function that can be used within a notebook. E.g.:
+# A display class that can be used within a notebook. E.g.:
 #   from jupyterlab_json import JSON
 #   JSON(data)
+    
+class JSON(JSON):
 
-def JSON(data):
-    bundle = {
-        'application/json': data,
-        # 'application/json': data,
-        'text/plain': json.dumps(data, indent=4)
-    }
-    display(bundle, raw=True)
+    @property
+    def data(self):
+        return self._data
+    
+    @data.setter
+    def data(self, data):
+        if isinstance(data, str):
+            data = json.loads(data)
+        self._data = data
+
+    def _ipython_display_(self):
+        bundle = {
+            'application/json': self.data,
+            'text/plain': '<jupyterlab_json.JSON object>'
+        }
+        display(bundle, raw=True)

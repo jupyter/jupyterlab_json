@@ -6,6 +6,7 @@ npm-debug.log
 *.egg-info/
 build/
 dist/
+MANIFEST
 
 # Compiled javascript
 jupyterlab_json/__pycache__/
