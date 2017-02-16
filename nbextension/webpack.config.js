@@ -49,10 +49,10 @@ module.exports = [
       libraryTarget: 'amd'
     },
     devtool: 'source-map',
-    module: { loaders: loaders },
+    module: { loaders },
     externals: [
       'nbextensions/jupyterlab_json/index',
-      'jquery'
+      'base/js/namespace'
     ]
   },
   // Bundle for the notebook containing the custom widget views and models
@@ -68,7 +68,7 @@ module.exports = [
       libraryTarget: 'amd'
     },
     devtool: 'source-map',
-    module: { loaders: loaders }
+    module: { loaders }
   },
   // Embeddable jupyterlab_json bundle
   //
@@ -94,6 +94,6 @@ module.exports = [
         '/lib/'
     },
     devtool: 'source-map',
-    module: { loaders: loaders }
+    module: { loaders }
   }
 ];

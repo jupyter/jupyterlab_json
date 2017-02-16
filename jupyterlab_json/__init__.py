@@ -28,6 +28,7 @@ def _jupyter_nbextension_paths():
 def JSON(data):
     bundle = {
         'application/json': data,
+        # 'application/json': data,
         'text/plain': json.dumps(data, indent=4)
     }
     display(bundle, raw=True)
