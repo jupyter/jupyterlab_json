@@ -15,7 +15,7 @@ export class OutputWidget extends Widget {
   constructor(options) {
     super();
     this.addClass(CLASS_NAME);
-    this._source = options.source;
+    this._source = options.model.data.get(options.mimeType);
   }
 
   /**
@@ -45,24 +45,18 @@ export class OutputRenderer {
   /**
    * The mime types this OutputRenderer accepts.
    */
-  mimetypes = [ 'application/json' ];
+  mimeTypes = [ 'application/json' ];
 
   /**
-   * Whether the input can safely sanitized for a given mime type.
+   * Whether we can render the request.
    */
-  isSanitizable(mimetype) {
-    return this.mimetypes.indexOf(mimetype) !== -1;
+  canRender(options) {
+    let mime = options.mimeType
+    return this.mimeTypes.indexOf(mime) !== -1;
   }
 
   /**
-   * Whether the input is safe without sanitization.
-   */
-  isSafe(mimetype) {
-    return false;
-  }
-
-  /**
-   * Render the transformed mime bundle.
+   * Render the request.
    */
   render(options) {
     return new OutputWidget(options);

@@ -11,23 +11,22 @@ import './index.css';
  */
 function activatePlugin(app, rendermime, registry) {
   /**
-   * Calculate the index of the renderer in the array renderers (e.g. Insert 
-   * this renderer after any renderers with mime type that matches "+json") 
+   * Calculate the index of the renderer in the array renderers (e.g. Insert
+   * this renderer after any renderers with mime type that matches "+json")
    * or simply pass an integer such as 0.
    */
   const index = findLastIndex(
-    toArray(rendermime.mimetypes()),
-    mimetype => mimetype.endsWith('+json')
+    toArray(rendermime.mimeTypes()),
+    mime => mime.endsWith('+json')
   ) + 1;
 
   /**
    * Add the renderer to the registry of renderers.
    */
-  rendermime.addRenderer(
-    'application/json',
-    new OutputRenderer(),
-    index
-  );
+  rendermime.addRenderer({
+    mimeType: 'application/json',
+    renderer: new OutputRenderer()
+  }, index);
 
   /**
    * Set the extensions associated with JSON.
