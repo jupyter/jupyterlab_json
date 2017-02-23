@@ -25,6 +25,19 @@ JSON({
 })
 ```
 
+To render a fully expanded tree:
+
+```python
+JSON({
+    "string": "string",
+    "array": [1, 2, 3],
+    "bool": True,
+    "object": {
+        "foo": "bar"
+    }
+}, expanded=True)
+```
+
 To render a JSON file in JupyterLab, simply open it:
 
 ![file renderer](http://g.recordit.co/cbf0xnQHKn.gif)
