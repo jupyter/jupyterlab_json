@@ -37,6 +37,7 @@ export class OutputWidget extends Widget {
    * A render function given the widget's DOM node.
    */
   _render() {
+    let json = this._source;
     ReactDOM.render(
       <JSONComponent 
         data={this._data} 

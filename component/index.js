@@ -33,7 +33,7 @@ export default class JSONComponent extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, metadata } = this.props;
     const keyPaths = this.state.filter
       ? filterPaths(data, this.state.filter)
       : [ 'root' ];
@@ -131,7 +131,9 @@ export default class JSONComponent extends React.Component {
             );
           }}
           shouldExpandNode={(keyPath, data, level) =>
-            keyPaths.join(',').includes(keyPath.join(','))}
+            metadata && metadata.expanded 
+              ? true 
+              : keyPaths.join(',').includes(keyPath.join(','))}
         />
       </div>
     );
