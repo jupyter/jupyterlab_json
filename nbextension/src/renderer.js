@@ -10,7 +10,7 @@ const CLASS_NAME = 'output_JSON rendered_html';
  * Render data to the output area
  */
 function render(data, node) {
-    ReactDOM.render(<JSONComponent data={data} theme="cm-s-ipython" />, node);
+  ReactDOM.render(<JSONComponent data={data} theme="cm-s-ipython" />, node);
 }
 
 /**
@@ -27,7 +27,7 @@ export function register_renderer(notebook) {
     const type = MIME_TYPE;
     const toinsert = this.create_output_subarea(md, CLASS_NAME, type);
     this.keyboard_manager.register_events(toinsert);
-    render(json, toinsert[(0)]);
+    render(json, toinsert[0]);
     element.append(toinsert);
     return toinsert;
   };

@@ -56,7 +56,10 @@ export class DocWidget extends Widget {
     if (this.isAttached) {
       let content = this._context.model.toString();
       let json = content ? JSON.parse(content) : {};
-      ReactDOM.render(<JSONComponent data={json} theme="cm-s-jupyter" />, this.node);
+      ReactDOM.render(
+        <JSONComponent data={json} theme="cm-s-jupyter" />,
+        this.node
+      );
     }
   }
 

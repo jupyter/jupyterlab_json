@@ -53,7 +53,7 @@ export class OutputRenderer {
   /**
    * The mime types this OutputRenderer accepts.
    */
-  mimeTypes = [ 'application/json' ];
+  mimeTypes = ['application/json'];
 
   /**
    * Whether the renderer can render given the render options.

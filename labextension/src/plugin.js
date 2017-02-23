@@ -33,28 +33,28 @@ function activatePlugin(app, rendermime, registry) {
   /**
    * Set the extensions associated with JSON.
    */
-  const EXTENSIONS = [ '.json', '.ipynb' ];
-  const DEFAULT_EXTENSIONS = [ '.json' ];
+  const EXTENSIONS = ['.json', '.ipynb'];
+  const DEFAULT_EXTENSIONS = ['.json'];
 
-    /**
+  /**
      * Add file handler for json files.
      */
-    const options = {
-      fileExtensions: EXTENSIONS,
-      defaultFor: DEFAULT_EXTENSIONS,
-      name: 'JSON',
-      displayName: 'JSON',
-      modelName: 'text',
-      preferKernel: false,
-      canStartKernel: false
-    };
+  const options = {
+    fileExtensions: EXTENSIONS,
+    defaultFor: DEFAULT_EXTENSIONS,
+    name: 'JSON',
+    displayName: 'JSON',
+    modelName: 'text',
+    preferKernel: false,
+    canStartKernel: false
+  };
 
   registry.addWidgetFactory(new DocWidgetFactory(options));
 }
 
 const Plugin = {
   id: 'jupyter.extensions.JSON',
-  requires: [ IRenderMime, IDocumentRegistry ],
+  requires: [IRenderMime, IDocumentRegistry],
   activate: activatePlugin,
   autoStart: true
 };
