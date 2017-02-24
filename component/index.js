@@ -38,7 +38,10 @@ export default class JSONComponent extends React.Component {
       ? filterPaths(data, this.state.filter)
       : ['root'];
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ 
+        position: 'relative',
+        width: '100%'
+      }}>
         <input
           ref={ref => this.input = ref}
           onChange={event => {
