@@ -14,11 +14,10 @@ function activatePlugin(app, rendermime, registry) {
    * this renderer after any renderers with mime type that matches "+json") 
    * or simply pass an integer such as 0.
    */
-  // const index = ArrayExt.findLastIndex(
-  //   toArray(rendermime.mimeTypes()),
-  //   mime => mime.endsWith('+json')
-  // ) + 1;
-  const index = 0;
+  const index = ArrayExt.findLastIndex(
+    toArray(rendermime.mimeTypes()),
+    mime => mime.endsWith('+json')
+  ) + 1;
 
   /**
    * Add the renderer to the registry of renderers.
@@ -31,12 +30,11 @@ function activatePlugin(app, rendermime, registry) {
     index
   );
 
-  if ('json') {
-    /**
-     * Set the extensions associated with JSON.
-     */
-    const EXTENSIONS = [ '.json' ];
-    const DEFAULT_EXTENSIONS = [ '.json' ];
+  /**
+   * Set the extensions associated with JSON.
+   */
+  const EXTENSIONS = [ '.json', '.ipynb' ];
+  const DEFAULT_EXTENSIONS = [ '.json' ];
 
     /**
      * Add file handler for json files.
@@ -51,15 +49,12 @@ function activatePlugin(app, rendermime, registry) {
       canStartKernel: false
     };
 
-    registry.addWidgetFactory(new DocWidgetFactory(options));
-  }
+  registry.addWidgetFactory(new DocWidgetFactory(options));
 }
 
 const Plugin = {
   id: 'jupyter.extensions.JSON',
-  requires: 'json'
-    ? [ IRenderMime, IDocumentRegistry ]
-    : [ IRenderMime ],
+  requires: [ IRenderMime, IDocumentRegistry ],
   activate: activatePlugin,
   autoStart: true
 };

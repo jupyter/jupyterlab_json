@@ -10,7 +10,7 @@ const CLASS_NAME = 'output_JSON rendered_html';
  * Render data to the output area
  */
 function render(data, node) {
-    ReactDOM.render(<JSONComponent data={data} />, node);
+    ReactDOM.render(<JSONComponent data={data} theme="cm-s-ipython" />, node);
 }
 
 /**
@@ -31,13 +31,11 @@ export function register_renderer(notebook) {
     element.append(toinsert);
     return toinsert;
   };
-  // // Calculate the index of this renderer in `output_area.display_order`
-  // // e.g. Insert this renderer after any renderers with mime type that matches "+json"
-  // const mime_types = output_area.mime_types();
-  // const json_types = mime_types.filter(mimetype => mimetype.includes('+json'));
-  // const index = mime_types.lastIndexOf(json_types.pop() + 1);
-  // // ...or just insert it at the top
-  const index = 0;
+  // Calculate the index of this renderer in `output_area.display_order`
+  // e.g. Insert this renderer after any renderers with mime type that matches "+json"
+  const mime_types = output_area.mime_types();
+  const json_types = mime_types.filter(mimetype => mimetype.includes('+json'));
+  const index = mime_types.lastIndexOf(json_types.pop() + 1);
   // Register the mime type and append_mime_type function with the output_area
   output_area.register_mime_type(MIME_TYPE, append_mime, {
     // Is output safe (no Javascript)?

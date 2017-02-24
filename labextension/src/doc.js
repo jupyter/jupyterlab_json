@@ -54,50 +54,9 @@ export class DocWidget extends Widget {
   onUpdateRequest(msg) {
     this.title.label = this._context.path.split('/').pop();
     if (this.isAttached) {
-      const content = this._context.model.toString();
-      try {
-        const data = JSON.parse(content);
-        ReactDOM.render(
-          <JSONComponent data={data} />,
-          this.node
-        );
-      } catch (error) {
-        
-        const ErrorDisplay = props => (
-          <div
-            className="jp-RenderedText jp-mod-error"
-            style={{
-              width: '100%',
-              minHeight: '100%',
-              textAlign: 'center',
-              padding: 10,
-              boxSizing: 'border-box'
-            }}
-          >
-            <span
-              style={{
-                fontSize: 18,
-                fontWeight: 500
-              }}
-            >{props.message}</span>
-            <pre
-              style={{
-                textAlign: 'left',
-                padding: 10,
-                overflow: 'hidden'
-              }}
-            >{props.content}</pre>
-          </div>
-        );
-        
-        ReactDOM.render(
-          <ErrorDisplay
-            message="Invalid JSON"
-            content={content}
-          />,
-          this.node
-        );
-      }
+      let content = this._context.model.toString();
+      let json = content ? JSON.parse(content) : {};
+      ReactDOM.render(<JSONComponent data={json} theme="cm-s-jupyter" />, this.node);
     }
   }
 
