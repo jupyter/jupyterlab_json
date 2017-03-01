@@ -1,13 +1,19 @@
-import { Widget } from 'phosphor/lib/ui/widget';
+import { Widget } from '@phosphor/widgets';
 import { ABCWidgetFactory } from 'jupyterlab/lib/docregistry';
+import { ActivityMonitor } from 'jupyterlab/lib/common/activitymonitor';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import JSONComponent from 'jupyterlab_json_react';
 
 /**
- * The class name added to this DocWidget.
+ * The class name added to a DocWidget.
  */
 const CLASS_NAME = 'jp-DocWidgetJSON';
+
+/**
+ * The timeout to wait for change activity to have ceased before rendering.
+ */
+const RENDER_TIMEOUT = 1000;
 
 /**
  * A widget for rendering jupyterlab_json files.
@@ -23,6 +29,11 @@ export class DocWidget extends Widget {
     context.pathChanged.connect(() => {
       this.update();
     });
+    this._monitor = new ActivityMonitor({
+      signal: context.model.contentChanged,
+      timeout: RENDER_TIMEOUT
+    });
+    this._monitor.activityStopped.connect(this.update, this);
   }
 
   /**
@@ -32,6 +43,7 @@ export class DocWidget extends Widget {
     if (!this.isDisposed) {
       this._context = null;
       ReactDOM.unmountComponentAtNode(this.node);
+      this._monitor.dispose();
       super.dispose();
     }
   }
@@ -44,7 +56,10 @@ export class DocWidget extends Widget {
     if (this.isAttached) {
       let content = this._context.model.toString();
       let json = content ? JSON.parse(content) : {};
-      ReactDOM.render(<JSONComponent data={json} theme="cm-s-jupyter" />, this.node);
+      ReactDOM.render(
+        <JSONComponent data={json} theme="cm-s-jupyter" />,
+        this.node
+      );
     }
   }
 
@@ -68,7 +83,7 @@ export class DocWidgetFactory extends ABCWidgetFactory {
    * Create a new widget given a context.
    */
   createNewWidget(context, kernel) {
-    let widget = new DocWidget(context);
+    const widget = new DocWidget(context);
     this.widgetCreated.emit(widget);
     return widget;
   }

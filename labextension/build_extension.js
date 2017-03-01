@@ -3,8 +3,13 @@ var path = require('path');
 
 buildExtension({
   name: 'jupyterlab_json',
-  entry: './src/plugin.js',
-  outputDir: '../jupyterlab_json/static',
+  entry: path.join(__dirname, 'src', 'plugin.js'),
+  outputDir: path.join(
+    __dirname,
+    '..',
+    'jupyterlab_json',
+    'static'
+  ),
   useDefaultLoaders: false,
   config: {
     module: {
@@ -31,7 +36,10 @@ buildExtension({
         { test: /\.json$/, loader: 'json-loader' },
         {
           test: /\.js$/,
-          exclude: /node_modules(?!\/jupyterlab_json_react)/,
+          include: [
+            path.join(__dirname, 'src'),
+            path.join(__dirname, 'node_modules', 'jupyterlab_json_react')
+          ],
           loader: 'babel-loader',
           query: { presets: [ 'latest', 'stage-0', 'react' ] }
         }

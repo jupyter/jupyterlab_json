@@ -33,12 +33,15 @@ export default class JSONComponent extends React.Component {
   }
 
   render() {
-    const { data } = this.props;
+    const { data, metadata } = this.props;
     const keyPaths = this.state.filter
       ? filterPaths(data, this.state.filter)
-      : [ 'root' ];
+      : ['root'];
     return (
-      <div style={{ position: 'relative' }}>
+      <div style={{ 
+        position: 'relative',
+        width: '100%'
+      }}>
         <input
           ref={ref => this.input = ref}
           onChange={event => {
@@ -85,7 +88,7 @@ export default class JSONComponent extends React.Component {
             // rootNodeChildren: {},
             arrowSign: { color: 'cm-variable' }
           }}
-          labelRenderer={([ label, type ]) => {
+          labelRenderer={([label, type]) => {
             let className;
             switch (type) {
               case 'array':
@@ -109,7 +112,7 @@ export default class JSONComponent extends React.Component {
               </span>
             );
           }}
-          valueRenderer={(raw) => {
+          valueRenderer={raw => {
             let className;
             switch (typeof raw) {
               case 'number':
@@ -131,7 +134,9 @@ export default class JSONComponent extends React.Component {
             );
           }}
           shouldExpandNode={(keyPath, data, level) =>
-            keyPaths.join(',').includes(keyPath.join(','))}
+            metadata && metadata.expanded 
+              ? true 
+              : keyPaths.join(',').includes(keyPath.join(','))}
         />
       </div>
     );
@@ -147,7 +152,7 @@ function filterObject(data, query) {
     return data.reduce(
       (result, item) => {
         if (objectIncludes(item, query)) {
-          return [ ...result, filterObject(item, query) ];
+          return [...result, filterObject(item, query)];
         }
         return result;
       },
@@ -165,15 +170,15 @@ function filterObject(data, query) {
   return data;
 }
 
-function filterPaths(data, query, parent = [ 'root' ]) {
+function filterPaths(data, query, parent = ['root']) {
   if (Array.isArray(data)) {
     return data.reduce(
       (result, item, index) => {
         if (item && typeof item === 'object' && objectIncludes(item, query))
           return [
             ...result,
-            [ index, ...parent ].join(','),
-            ...filterPaths(item, query, [ index, ...parent ])
+            [index, ...parent].join(','),
+            ...filterPaths(item, query, [index, ...parent])
           ];
         return result;
       },
@@ -185,13 +190,13 @@ function filterPaths(data, query, parent = [ 'root' ]) {
       let item = data[key];
       if (
         item &&
-          typeof item === 'object' &&
-          (key.includes(query) || objectIncludes(item, query))
+        typeof item === 'object' &&
+        (key.includes(query) || objectIncludes(item, query))
       )
         return [
           ...result,
-          [ key, ...parent ].join(','),
-          ...filterPaths(item, query, [ key, ...parent ])
+          [key, ...parent].join(','),
+          ...filterPaths(item, query, [key, ...parent])
         ];
       return result;
     }, []);

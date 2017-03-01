@@ -1,4 +1,4 @@
-import { Widget } from 'phosphor/lib/ui/widget';
+import { Widget } from '@phosphor/widgets';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import JSONComponent from 'jupyterlab_json_react';
@@ -15,7 +15,8 @@ export class OutputWidget extends Widget {
   constructor(options) {
     super();
     this.addClass(CLASS_NAME);
-    this._source = options.source;
+    this._data = options.model.data.get(options.mimeType);
+    this._metadata = options.model.metadata.get(options.mimeType);
   }
 
   /**
@@ -37,7 +38,14 @@ export class OutputWidget extends Widget {
    */
   _render() {
     let json = this._source;
-    ReactDOM.render(<JSONComponent data={json} theme="cm-s-jupyter" />, this.node);
+    ReactDOM.render(
+      <JSONComponent 
+        data={this._data} 
+        metadata={this._metadata} 
+        theme="cm-s-jupyter"
+      />,
+      this.node
+    );
   }
 }
 
@@ -45,20 +53,13 @@ export class OutputRenderer {
   /**
    * The mime types this OutputRenderer accepts.
    */
-  mimetypes = [ 'application/json' ];
+  mimeTypes = ['application/json'];
 
   /**
-   * Whether the input can safely sanitized for a given mime type.
+   * Whether the renderer can render given the render options.
    */
-  isSanitizable(mimetype) {
-    return this.mimetypes.indexOf(mimetype) !== -1;
-  }
-
-  /**
-   * Whether the input is safe without sanitization.
-   */
-  isSafe(mimetype) {
-    return false;
+  canRender(options) {
+    return this.mimeTypes.indexOf(options.mimeType) !== -1;
   }
 
   /**
