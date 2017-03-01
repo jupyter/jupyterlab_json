@@ -10,11 +10,7 @@ var loaders = [
     test: /\.js$/,
     include: [
       path.join(__dirname, 'src'),
-      path.join(
-        __dirname,
-        'node_modules',
-        'jupyterlab_json_react'
-      )
+      path.join(__dirname, 'node_modules', 'jupyterlab_json_react')
     ],
     loader: 'babel-loader',
     query: { presets: [ 'latest', 'stage-0', 'react' ] }
@@ -66,7 +62,10 @@ module.exports = [
     },
     devtool: 'source-map',
     module: { loaders },
-    externals: ['nbextensions/jupyterlab_json/index', 'jquery']
+    externals: [
+      'nbextensions/jupyterlab_json/index', 
+      'base/js/namespace'
+    ]
   },
   /**
    * Bundle for the notebook containing the custom widget views and models
@@ -107,7 +106,7 @@ module.exports = [
    * by the custom widget embedder.
    */
   {
-    entry: path.join(__dirname, 'src', 'embed.js'),
+    entry: './src/embed.js',
     output: {
       filename: 'index.js',
       path: path.join(__dirname, 'embed'),

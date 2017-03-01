@@ -38,16 +38,10 @@ buildExtension({
           test: /\.js$/,
           include: [
             path.join(__dirname, 'src'),
-            path.join(
-              __dirname,
-              'node_modules',
-              'jupyterlab_json_react'
-            )
+            path.join(__dirname, 'node_modules', 'jupyterlab_json_react')
           ],
           loader: 'babel-loader',
-          query: {
-            presets: [ 'latest', 'stage-0', 'react' ]
-          }
+          query: { presets: [ 'latest', 'stage-0', 'react' ] }
         }
       ]
     }
