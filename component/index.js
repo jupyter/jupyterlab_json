@@ -4,6 +4,26 @@ import JSONTree from 'react-json-tree';
 import Highlight from 'react-highlighter';
 import './index.css';
 
+const theme = {
+  scheme: 'jupyter',
+  base00: '#fff',
+  base01: '#fff',
+  base02: '#d7d4f0',
+  base03: '#408080',
+  base04: '#b4b7b4',
+  base05: '#c5c8c6',
+  base06: '#d7d4f0',
+  base07: '#fff',
+  base08: '#000',
+  base09: '#080',
+  base0A: '#fba922',
+  base0B: '#408080',
+  base0C: '#aa22ff',
+  base0D: '#00f',
+  base0E: '#008000',
+  base0F: '#00f'
+};
+
 export default class JSONComponent extends React.Component {
   state = { filter: '' };
   input = null;
@@ -72,7 +92,7 @@ export default class JSONComponent extends React.Component {
           data={data}
           collectionLimit={100}
           theme={{
-            extend: 'default',
+            extend: theme,
             // TODO: Use Jupyter Notebook's current CodeMirror theme vs. 'cm-s-ipython'
             tree: `CodeMirror ${this.props.theme || 'cm-s-ipython'}`,
             // valueLabel: 'cm-variable',
@@ -88,19 +108,12 @@ export default class JSONComponent extends React.Component {
             // rootNodeChildren: {},
             arrowSign: { color: 'cm-variable' }
           }}
+          invertTheme={false}
           labelRenderer={([label, type]) => {
-            let className;
-            switch (type) {
-              case 'array':
-                className = 'cm-variable-2';
-                break;
-              case 'object':
-                className = 'cm-variable-3';
-                break;
-              case 'root':
-              default:
-                className = 'cm-variable';
-            }
+            let className = 'cm-variable';
+            // if (type === 'root') className = 'cm-variable-2';
+            if (type === 'array') className = 'cm-variable-2';
+            if (type === 'object') className = 'cm-variable-3';
             return (
               <span className={className}>
                 <Highlight
@@ -113,15 +126,9 @@ export default class JSONComponent extends React.Component {
             );
           }}
           valueRenderer={raw => {
-            let className;
-            switch (typeof raw) {
-              case 'number':
-                className = 'cm-number';
-                break;
-              case 'string':
-              default:
-                className = 'cm-string';
-            }
+            let className = 'cm-string';
+            if (typeof raw === 'number') className = 'cm-number';
+            if (raw === 'true' || raw === 'false') className = 'cm-keyword';
             return (
               <span className={className}>
                 <Highlight
