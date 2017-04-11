@@ -1,6 +1,6 @@
-# jupyterlab_json
+# component
 
-The React component(s)
+A React component for rendering JSON
 
 ## Structure
 
