@@ -10,10 +10,10 @@
 
 .jp-OutputWidgetJSON {
   padding-top: 5px;
-  height: 360px;
 }
 
 .jp-DocWidgetJSON {
+  padding: 5px;
   overflow: auto;
 }
 
