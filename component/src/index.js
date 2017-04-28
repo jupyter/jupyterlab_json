@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import JSONTree from 'react-json-tree';
 import Highlight from 'react-highlighter';
-import './index.css';
+import '../index.css';
 
 const theme = {
   scheme: 'jupyter',

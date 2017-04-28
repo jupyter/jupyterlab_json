@@ -1,12 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import JSONComponent from 'jupyterlab_json_react';
-import './index.css';
+import '../index.css';
 
 const MIME_TYPE = 'application/json';
 const CLASS_NAME = 'output_JSON rendered_html';
-const DEFAULT_WIDTH = 840;
-const DEFAULT_HEIGHT = 360;
 
 /**
  * Render data to the DOM node
@@ -32,7 +30,7 @@ function handleAddOutput(event, { output, output_area }) {
   /* Get rendered DOM node */
   const toinsert = output_area.element.find(`.${CLASS_NAME.split(' ')[0]}`);
   /** e.g. Inject a static image representation into the mime bundle for
-   *  endering on Github, etc.
+   *  rendering on Github, etc.
    */
   // if (toinsert[0]) {
   //   renderLibrary.toPng(toinsert[0]).then(url => {
@@ -63,10 +61,8 @@ export function register_renderer(notebook, events, OutputArea) {
     /* Render data to DOM node */
     const props = {
       data,
-      theme: 'cm-s-ipython',
       metadata: metadata[MIME_TYPE],
-      width: element.width(),
-      height: DEFAULT_HEIGHT
+      theme: 'cm-s-ipython'
     };
     render(props, toinsert[0]);
     element.append(toinsert);

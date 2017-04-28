@@ -1,19 +1,13 @@
-/* 
-  Copyright (c) Jupyter Development Team.
-  Distributed under the terms of the Modified BSD License. 
-*/
-
 .jp-OutputWidgetJSON, .jp-DocWidgetJSON {
   width: 100%;
   padding: 0;
 }
 
 .jp-OutputWidgetJSON {
-  padding-top: 5px;
+  margin-top: 5px;
 }
 
 .jp-DocWidgetJSON {
-  padding: 5px;
   overflow: auto;
 }
 
