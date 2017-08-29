@@ -27,7 +27,7 @@ export class OutputWidget extends Widget {
   }
 
   /**
-   * A message handler invoked on an `'before-detach'` message
+   * A message handler invoked on a `'before-detach'` message
    */
   onBeforeDetach(msg) {
     /* Dispose of resources used by this widget */
@@ -61,10 +61,8 @@ export class OutputWidget extends Widget {
   _render() {
     const props = {
       data: this._data.get(this._mimeType),
-      theme: 'cm-s-jupyter',
       metadata: this._metadata.get(this._mimeType),
-      width: this.node.offsetWidth,
-      height: this.node.offsetHeight
+      theme: 'cm-s-jupyter',
     };
     ReactDOM.render(<JSONComponent {...props} />, this.node);
   }

@@ -32,7 +32,7 @@ class ErrorDisplay extends React.Component {
 }
 
 /**
- * A widget for rendering jupyterlab_json files
+ * A widget for rendering JSON files
  */
 export class DocWidget extends Widget {
   constructor(context) {
@@ -110,14 +110,15 @@ export class DocWidget extends Widget {
     if (this.isAttached && this._context.isReady) this._render();
   }
 
+  /**
+   * Render data to DOM node
+   */
   _render() {
     const content = this._context.model.toString();
     try {
       const props = {
         data: JSON.parse(content),
-        theme: 'cm-s-jupyter',
-        width: this.node.offsetWidth,
-        height: this.node.offsetHeight
+        theme: 'cm-s-jupyter'
       };
       ReactDOM.render(<JSONComponent {...props} />, this.node);
     } catch (error) {
@@ -128,6 +129,9 @@ export class DocWidget extends Widget {
     }
   }
 
+  /**
+   * A message handler invoked on a `'path-changed'` message
+   */
   _onPathChanged() {
     this.title.label = this._context.path.split('/').pop();
   }

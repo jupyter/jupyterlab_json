@@ -1,7 +1,0 @@
-default_context:
-    author_name: "Grant Nestor"
-    author_email: "grantnestor@gmail.com"
-    mime_type: "application/json"
-    file_extension: "json"
-    mime_short_name: "JSON"
-    extension_name: "jupyterlab_json"
